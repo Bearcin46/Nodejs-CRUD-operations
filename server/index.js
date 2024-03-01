@@ -2,9 +2,11 @@ import express, { urlencoded } from "express";
 import mongoose from "mongoose";
 import { Product } from "./models/product.model.js";
 import { router as productRoute } from "./routes/product.route.js";
+import dotenv from "dotenv";
+
 const server = express();
 const SERVER_PORT = 1772;
-
+dotenv.config();
 //middleware
 
 server.use(express.json());
@@ -25,9 +27,7 @@ server.get("*", (req, res) => {
   res.send("page not available");
 });
 mongoose
-  .connect(
-    "mongodb+srv://imsweety33:1WoRhFJnSiBFY9d8@sample.txvvcef.mongodb.net/sample?retryWrites=true&w=majority&appName=sample"
-  )
+  .connect(process.env.MONGODB_URL)
   .then(() => {
     console.log("connected to db");
     server.listen(SERVER_PORT, () => {
